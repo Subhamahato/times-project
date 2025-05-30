@@ -1,0 +1,272 @@
+/* CSS Variables for easy customization */
+        :root {
+            --header-height: 60px;
+            --menu-bg-color: rgba(0, 0, 0, 0.9);
+            --text-color: #fff;
+            --desktop-nav-text-color: #333;
+            --active-link-bg: #007bff;
+            --active-link-color: #fff;
+            --hamburger-color: #333;
+            --header-bg: #f8f8f8;
+            --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --iframe-container-bg: #f0f0f0;
+        }
+
+        /* Base styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll on body */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+
+        /* Utility class to prevent body scrolling */
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-height);
+            padding: 0 20px;
+            background-color: var(--header-bg);
+            box-shadow: var(--box-shadow);
+            position: fixed; /* Fixed header */
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure header is on top */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        .page-title {
+            font-size: 1.5em;
+            color: var(--desktop-nav-text-color);
+            /* Prevent page-title from shrinking or wrapping prematurely */
+            white-space: nowrap;
+            flex-shrink: 0; /* Important: Prevent shrinking */
+        }
+
+        /* Hamburger Menu Icon (Mobile Specific) */
+        .hamburger-icon {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            display: flex; /* Always flex for mobile */
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 1001; /* Ensure it's above the menu overlay */
+        }
+
+        .hamburger-icon span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--hamburger-color);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hamburger Animation */
+        .hamburger-icon.open span:nth-child(1) {
+            transform: translateY(8.5px) rotate(45deg);
+        }
+
+        .hamburger-icon.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-icon.open span:nth-child(3) {
+            transform: translateY(-8.5px) rotate(-45deg);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--menu-bg-color);
+            transform: translateX(100%); /* Hidden by default off-screen */
+            transition: transform 0.3s ease-in-out;
+            z-index: 999; /* Below hamburger, above main content */
+            display: flex; /* Always flex for mobile layout */
+            flex-direction: column;
+            padding-top: var(--header-height); /* Space for header */
+            box-sizing: border-box;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0); /* Show menu */
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1; /* Allow content to grow and scroll */
+            overflow-y: auto; /* Vertically scrollable */
+            overflow-x: hidden; /* No horizontal scroll for menu itself */
+            padding-bottom: 20px; /* Some padding at the bottom for scrollable content */
+            height: calc(100% - var(--header-height)); /* Explicitly set height for better mobile scrolling */
+        }
+
+        .mobile-menu li {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.2em;
+            display: block;
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Hide overflow content */
+            text-overflow: ellipsis; /* Show ellipsis for truncated text */
+        }
+
+        .mobile-menu a.active {
+            background-color: var(--active-link-bg);
+            color: var(--active-link-color);
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: -5px -10px; /* Adjust padding/margin to maintain visual consistency */
+        }
+
+        /* Main content and Iframe */
+        .main-content {
+            margin-top: var(--header-height); /* Space for fixed header */
+            flex-grow: 1; /* Allow main content to take remaining vertical space */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .iframe-container {
+            flex-grow: 1; /* Allow iframe container to fill available space */
+            overflow-x: auto; /* Allow horizontal scroll for iframe content */
+            background-color: var(--iframe-container-bg); /* Background for when iframe is smaller */
+            display: flex; /* For centering the iframe */
+            justify-content: center; /* For centering the iframe content horizontally */
+            align-items: flex-start; /* Align iframe to the top */
+            padding: 20px; /* Padding around the iframe */
+            box-sizing: border-box;
+            position: relative; /* For positioning the error message */
+        }
+
+        iframe {
+            width: 1024px; /* Fixed desktop-like width */
+            height: 100%; /* Ensure it takes full height of container */
+            min-height: calc(100vh - var(--header-height) - 40px); /* Adjust based on padding */
+            border: 1px solid #ccc; /* Add a border for better visual separation */
+            display: block; /* Remove extra space below iframe */
+            background-color: #fff; /* Default background for iframe */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .iframe-error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f8d7da; /* Light red background */
+            color: #721c24; /* Dark red text */
+            border: 1px solid #f5c6cb;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1em;
+            max-width: 80%;
+            display: none; /* Hidden by default */
+        }
+
+        /* Desktop specific styles (min-width: 768px) */
+        @media (min-width: 768px) {
+            .hamburger-icon {
+                display: none; /* Hide hamburger on desktop */
+            }
+
+            .mobile-menu {
+                position: static; /* Reset position */
+                transform: translateX(0); /* Always visible on desktop */
+                background-color: transparent; /* No background overlay */
+                width: auto;
+                height: auto;
+                padding-top: 0;
+                
+                /* New flex properties for desktop nav container */
+                display: flex; /* Make the nav itself a flex container */
+                flex-grow: 1; /* Allow nav to take remaining space */
+                justify-content: flex-end; /* Push content to the right */
+                overflow-x: auto; /* Allow nav to scroll horizontally if its content overflows */
+                overflow-y: hidden; /* No vertical scroll for nav */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+            }
+
+            .mobile-menu ul {
+                display: flex; /* Horizontal navigation for desktop */
+                flex-grow: 0; /* Don't grow */
+                overflow-y: visible; /* No vertical scroll on desktop */
+                padding-bottom: 0;
+                height: auto; /* Reset height for desktop */
+                
+                white-space: nowrap; /* Keep all LI items on one line, forcing horizontal overflow */
+                margin-left: auto; /* Push ul to the right within the nav if there's extra space */
+            }
+
+            .mobile-menu li {
+                border-bottom: none; /* No border between links */
+                padding: 0; /* Reset padding */
+                margin-left: 20px; /* Spacing between desktop links */
+                flex-shrink: 0; /* Prevent list items from shrinking */
+            }
+
+            .mobile-menu a {
+                color: var(--desktop-nav-text-color); /* Desktop link color */
+                padding: 5px 10px; /* Padding for clickable area */
+                white-space: nowrap; /* Prevent text wrapping within a link */
+                text-overflow: clip; /* No ellipsis on desktop */
+                overflow: visible; /* No hidden overflow */
+                font-size: 1em; /* Slightly smaller font for more links to fit */
+            }
+
+            .mobile-menu a.active {
+                background-color: var(--active-link-bg);
+                color: var(--active-link-color);
+                border-radius: 5px;
+                padding: 5px 10px; /* Ensure consistent padding */
+                margin: 0; /* Reset margin */
+            }
+
+            .header {
+                /* No changes needed here, flex-grow on mobile-menu will handle remaining space */
+            }
+
+            /* Adjust iframe container padding on desktop for better fit */
+            .iframe-container {
+                padding: 30px;
+            }
+
+            /* Ensure iframe takes up appropriate height on desktop */
+            iframe {
+                min-height: calc(100vh - var(--header-height) - 60px); /* Adjust based on new padding */
+            }
+        }
+
+        /* Small screen specific styles (e.g., iPhone SE portrait) to ensure hamburger is always seen */
+        @media (max-width: 767.98px) {
+            .hamburger-icon {
+                display: flex; /* Ensure hamburger is visible on small screens */
+            }
+            .mobile-menu {
+                display: flex; /* Ensure mobile menu is set up as flex for overlay */
+            }
+        }
+        
+        

@@ -1,0 +1,188 @@
+/* General Body and Container Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More modern font */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to start to allow scroll if content is tall */
+    min-height: 100vh;
+    background-color: #e9ecef; /* Light grey background */
+    margin: 0;
+    padding: 20px; /* Add some padding around the calendar */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    overflow-x: hidden; /* Prevent horizontal scrollbar from overflow */
+}
+
+.calendar-container {
+    background-color: #ffffff;
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Softer, larger shadow */
+    padding: 30px;
+    text-align: center;
+    max-width: 1300px; /* Max width for the whole calendar container */
+    width: 100%; /* Ensures it takes full width up to max-width */
+    margin-top: 20px; /* Space from top */
+}
+
+/* Calendar Header and Navigation */
+#calendar-header {
+    display: flex;
+    justify-content: center; /* Center content by default */
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0; /* Subtle separator */
+    flex-wrap: wrap; /* Allow header elements to wrap if space is tight */
+    gap: 15px; /* Space between wrapped items */
+}
+
+#calendar-header h1 {
+    color: #343a40; /* Darker text for heading */
+    margin: 0; /* Remove default margin */
+    font-size: 2.2em; /* Slightly larger heading */
+    flex-basis: 100%; /* Ensures h1 takes its own line initially */
+    order: 1; /* Place h1 after nav initially, can be changed if preferred */
+    text-align: center;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 15px; /* Space between buttons and year */
+    align-items: center;
+    order: 0; /* Place nav before h1 initially */
+    justify-content: center; /* Center the buttons within the nav container */
+    /* Add flex-basis to ensure buttons wrap nicely on smaller screens */
+    flex-basis: auto; /* Allow content to dictate size */
+    min-width: fit-content; /* Ensure it doesn't shrink too much */
+}
+
+.calendar-nav button {
+    background-color: #007bff; /* Primary blue button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px; /* Rounded buttons */
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2); /* Subtle shadow for buttons */
+}
+
+.calendar-nav button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-1px); /* Slight lift effect */
+}
+
+.calendar-nav button:active {
+    background-color: #004085;
+    transform: translateY(0); /* Press effect */
+}
+
+.display-year-text {
+    font-size: 1.8em; /* Size of the year text */
+    font-weight: bold;
+    color: #343a40;
+    min-width: 80px; /* Ensure space for year */
+    text-align: center;
+}
+
+/* Main Calendar Grid for Months */
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px; /* Space between months */
+    justify-content: center; /* Center the grid items if there's extra space */
+    align-items: stretch; /* Ensure all month cards have similar height if content varies */
+}
+
+.month {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fcfcfc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /* IMPORTANT: Ensure padding/border are included in width */
+}
+
+.month:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.month h3 {
+    margin-top: 0;
+    color: #495057;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+
+/* Days Grid within each Month */
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 days of the week */
+    /* Adjust gap: A smaller gap can help prevent overflow on very small screens */
+    gap: 5px; /* Slightly reduced gap */
+    flex-grow: 1;
+}
+
+.day-name {
+    font-weight: bold;
+    color: #6c757d;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.95em;
+    background-color: #f1f3f5;
+    border-radius: 4px;
+    box-sizing: border-box; /* IMPORTANT: Ensure padding/border are included in width */
+    /* Ensure content doesn't force a minimum width that breaks layout */
+    min-width: 0;
+}
+
+.day {
+    padding: 6px; /* Reduced padding slightly to give more content space */
+    text-align: center;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    cursor: default;
+    /* Use clamp for font-size to adapt to available space */
+    font-size: clamp(0.8em, 3vw, 1em); /* Adapts font size */
+    color: #343a40;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; /* IMPORTANT: Ensure padding/border are included in width */
+    /* Very important for grid items: */
+    overflow: hidden; /* Hide any content that might truly overflow */
+    min-width: 0; /* Allows grid item to shrink below its content size */
+}
+
+.empty {
+    background-color: transparent;
+    cursor: default;
+}
+
+/* Styling for days that have 'passed' (progress) */
+.progress-gone {
+    background-color: #d4edda;
+    color: #155724;
+    font-weight: bold;
+    box-shadow: inset 0 0 5px rgba(21, 87, 36, 0.1);
+}
+
+/* Styling for the current day */
+.current-day {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    border: 2px solid #218838;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.4);
+    transform: scale(1.05); /* Slightly larger */
+    position: relative;
+    z-index: 1;
+    /* Adjust transform origin if needed to prevent shifting for very small cells */
+    transform-origin: center center;
+}

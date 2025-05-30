@@ -1,0 +1,292 @@
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Align to start to allow scrolling */
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-y: auto; /* Allow vertical scrolling */
+            margin: 0;
+            font-family: sans-serif;
+            padding: 20px 10px; /* Add some padding to the body for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        .clock-container {
+            /* Responsive width and height based on viewport, with a max size */
+            width: min(85vw, 450px);
+            height: min(85vw, 450px);
+            background-image: url('../images/yearly-clock-bg.png'); /* IMPORTANT: Replace with your image path or use a placeholder */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px; /* Consistent margin */
+            flex-shrink: 0; /* Prevent shrinking on small screens */
+        }
+
+        .needle {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(0deg);
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            /* Ensure needles scale somewhat with the clock size */
+            box-sizing: border-box; /* Include padding/border in element's total width and height */
+        }
+
+        /* Define styles for each needle - Ordered by size: Month > Date > Hour > Minute > Second */
+        .month-needle {
+            width: 5px;
+            height: 46%;
+            background-color: #008000; /* Green */
+            z-index: 1;
+        }
+
+        .date-needle {
+            width: 4px;
+            height: 37%;
+            background-color: #0000ff; /* Blue */
+            z-index: 2;
+        }
+
+        .hour-needle {
+            width: 6px;
+            height: 26.7%;
+            background-color: #FF9100; /* Dark Grey */
+            z-index: 3;
+        }
+
+        .minute-needle {
+            width: 4px;
+            height: 23%;
+            background-color: #FFE600; /* Medium Grey */
+            z-index: 4;
+        }
+
+        .second-needle {
+            width: 2px;
+            height: 20%;
+            background-color: #ff0000; /* Red */
+            z-index: 5;
+        }
+
+        .center-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px; /* Fixed size, adjust if needed */
+            height: 15px; /* Fixed size, adjust if needed */
+            background-color: #fff;
+            border-radius: 50%;
+            z-index: 6;
+            border: 2px solid #333;
+        }
+
+        /* Legend Styles */
+        .legend-container {
+            display: flex;
+            gap: 15px; /* Slightly smaller gap for mobile */
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap; /* Allow items to wrap */
+            justify-content: center;
+            margin-bottom: 20px;
+            max-width: 90vw; /* Limit max width */
+            box-sizing: border-box;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: clamp(0.9em, 2.5vw, 1.1em); /* Responsive font size */
+            color: #444;
+            gap: 5px;
+            padding: 5px 8px;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+        }
+
+        .legend-color-box {
+            width: 18px; /* Slightly smaller color box */
+            height: 18px;
+            border-radius: 4px;
+            margin-right: 5px;
+            border: 1px solid rgba(0,0,0,0.1);
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        /* Digital Display inside legend */
+        .digital-display {
+            font-weight: bold;
+            color: #000;
+            min-width: 22px;
+            text-align: right;
+            padding-left: 5px;
+        }
+
+        /* Assign colors to legend boxes */
+        .legend-color-month { background-color: #008000; }
+        .legend-color-date { background-color: #0000ff; }
+        .legend-color-hour { background-color: #FF9100; }
+        .legend-color-minute { background-color: #FFE600; }
+        .legend-color-second { background-color: #ff0000; }
+
+        /* Control Panel Styles */
+        .control-panel {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 95vw; /* Limit max width for smaller screens */
+            box-sizing: border-box;
+        }
+
+        .control-panel button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: clamp(0.9em, 3vw, 1em); /* Responsive font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .control-panel button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Input Box for Time Setting (Animation & Sizing) */
+        .input-box {
+            max-height: 0;
+            opacity: 0;
+            transform: scale(0);
+            overflow: hidden;
+            padding: 0;
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+
+            transition: max-height 0.4s ease-out,
+                        opacity 0.3s ease-out,
+                        transform 0.4s ease-out;
+
+            transform-origin: center top;
+
+            /* Changed to flex for row-based layout */
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap to next line */
+            justify-content: center; /* Center groups of inputs */
+            width: 100%; /* Take full width of parent */
+            box-sizing: border-box;
+            gap: 10px; /* Gap between input groups */
+        }
+
+        /* Active state for Input Box (visible and animated) */
+        .input-box.active {
+            max-height: 500px; /* Increased to accommodate content on small screens */
+            opacity: 1;
+            transform: scale(1);
+            padding: 10px;
+        }
+
+        .input-section {
+            border: 1px solid #e0e0e0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: #fcfcfc;
+            margin: 5px;
+            flex-grow: 1; /* Allow sections to grow */
+            min-width: 250px; /* Ensure a minimum width for readability */
+            box-sizing: border-box;
+            /* New: Make input-section a flex container for its children */
+            display: flex;
+            flex-wrap: wrap; /* Allow individual input-item-rows to wrap */
+            justify-content: center; /* Center content within the section */
+            align-items: flex-start; /* Align items to the start vertically */
+            gap: 8px 15px; /* Vertical and horizontal gap between input-item-rows */
+        }
+
+        .input-section h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: clamp(1em, 3.5vw, 1.1em); /* Responsive font size */
+            margin-bottom: 10px;
+            text-align: center;
+            flex-basis: 100%; /* Make heading take full width */
+        }
+
+        /* New: Styles for the individual label-input container */
+        .input-item-row {
+            display: flex; /* Makes the label and input sit side-by-side */
+            align-items: center; /* Vertically aligns label and input */
+            white-space: nowrap; /* Prevents the label and input from breaking into new lines */
+            flex-shrink: 0; /* Prevents this entire row from shrinking */
+            /* min-width: content; /* Ensures enough space for content, allowing wrapping of rows */
+            /* flex-grow: 1; */
+        }
+
+        .input-box label {
+            font-weight: bold;
+            color: #555;
+            font-size: clamp(0.9em, 2.5vw, 1em); /* Responsive font size */
+            margin-right: 5px; /* Small space between label and input */
+        }
+
+        .input-box input[type="number"] {
+            width: 50px; /* Fixed width for input */
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: clamp(0.9em, 2.5vw, 0.95em); /* Responsive font size */
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .input-buttons {
+            margin-top: 15px;
+            text-align: center;
+            flex-basis: 100%; /* Make buttons take full width */
+            display: flex; /* Use flex for buttons */
+            justify-content: center;
+            flex-wrap: wrap; /* Allow buttons to wrap */
+            gap: 10px; /* Space between buttons */
+        }
+
+        /* Specific button colors */
+        #setCustomTimeBtn { background-color: #28a745; }
+        #setCustomTimeBtn:hover { background-color: #218838; }
+        #refreshCurrentTimeBtn { background-color: #ffc107; color: #333; }
+        #refreshCurrentTimeBtn:hover { background-color: #e0a800; }
+
+        /* Media queries for fine-tuning on very small screens if needed */
+        @media (max-width: 400px) {
+            .clock-container {
+                width: 90vw;
+                height: 90vw;
+            }
+            .legend-item, .control-panel button, .input-box label, .input-box input[type="number"] {
+                font-size: 0.85em; /* Slightly smaller font for very small screens */
+            }
+            .legend-color-box {
+                width: 15px;
+                height: 15px;
+            }
+            .input-section {
+                gap: 8px 10px; /* Reduce gap between input-item-rows on very small screens */
+            }
+        }
+        
+        

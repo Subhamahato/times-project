@@ -1,0 +1,128 @@
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 10px;
+            background-color: #f4f4f4;
+            color: #333;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        h1 {
+            color: #0056b3;
+            margin-bottom: 10px;
+            font-size: 2em; /* Responsive font size */
+            text-align: center;
+        }
+
+        #currentTime {
+            font-size: 1.2em; /* Responsive font size */
+            margin-bottom: 20px;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Container for the background SVG image */
+        #clock-container {
+            /* Responsive sizing */
+            width: 90vw; /* 90% of viewport width */
+            max-width: 500px; /* Maximum size for larger screens */
+            height: 90vw; /* Keep aspect ratio square */
+            max-height: 500px; /* Maximum size for larger screens */
+
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            background-image: url('../images/day-pie-chart-bg.png'); /* --- IMPORTANT: REPLACE WITH YOUR SVG PATH --- */
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+            flex-shrink: 0; /* Prevent shrinking on smaller screens if content is too large */
+        }
+
+        canvas {
+            /* Canvas display size will be set by JS dynamically */
+            /* Keep it slightly smaller than container if you want background numbers to show around the edges */
+            width: 76%; /* Make canvas a percentage of its parent container */
+            height: 76%; /* Maintain aspect ratio with parent */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the canvas precisely */
+        }
+
+        .legend {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 20px; /* Smaller gap for small screens */
+            font-size: 0.9em; /* Smaller font size for small screens */
+            max-width: 500px;
+            padding: 0 10px; /* Add some padding on the sides */
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 18px; /* Slightly smaller color swatch */
+            height: 18px;
+            margin-right: 8px;
+            border-radius: 4px;
+        }
+
+        /* Specific legend colors */
+        .day-color { background-color: #87CEEB; } /* SkyBlue */
+        .night-color { background-color: #191970; } /* MidnightBlue */
+        .spent-time-color { background-color: #FFD700; } /* Gold */
+        .remaining-time-color { background-color: #D0D0D0; } /* Light Grey */
+
+        /* Media Queries for fine-tuning on smaller screens */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            #currentTime {
+                font-size: 1em;
+            }
+            .legend {
+                font-size: 0.8em;
+                gap: 8px 15px;
+            }
+            .legend-color {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        /* Media Queries for even smaller screens */
+        @media (max-width: 320px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            #currentTime {
+                font-size: 0.9em;
+            }
+            .legend {
+                flex-direction: column; /* Stack legend items on very small screens */
+                align-items: flex-start;
+                font-size: 0.75em;
+                gap: 5px;
+            }
+            .legend-item {
+                margin-bottom: 5px;
+            }
+        }
+        

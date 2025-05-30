@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24-Hour Clock</title>
+    <link rel="stylesheet" href="../assets/css/day-pie-chart.css">
+    <script src="../assets/js/day-pie-chart.js" defer></script>
+</head>
+<body>
+    <h1>24-Hour Clock</h1>
+    <div id="currentTime"></div>
+
+    <div id="clock-container">
+        <canvas id="timeClock"></canvas>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><span class="legend-color day-color"></span>Day Time (6 AM - 6 PM)</div>
+        <div class="legend-item"><span class="legend-color night-color"></span>Night Time (6 PM - 6 AM)</div>
+        <div class="legend-item"><span class="legend-color spent-time-color"></span>Time Spent Today</div>
+        <div class="legend-item"><span class="legend-color remaining-time-color"></span>Remaining Time Today</div>
+    </div>
+</body>
+</html>
